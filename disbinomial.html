@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribución Binomial</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+        <div class="container">
+            <h2 class="subtitulo">Distribución Binomial</h2>
+            <img src="Dbinomial-formula.png" alt="Hola Formula Distribución Binomial" height="150px"><br><br>
+            <label for="p">Probabilidad de éxito:</label><br>
+            <input type="text" id="p" placeholder="(p)" required><br>
+            <label for="q">Probabilidad de fracaso:</label>
+            <input type="text" id="q" placeholder="(q)" required><br>
+            <label for="n">Número de ensayos:</label><br>
+            <input type="text" id="n" placeholder="(n)" required><br>
+            <label for="x">Número de éxitos deseados:</label>
+            <input type="text" id="x" placeholder="(x)" required><br><br><br>
+            
+            <div id="outer">
+              <div class="button_slide slide_down" onclick="calcularBinomial()">Calcular</div>
+              <br /> <br /><br />
+            <div id="outer2">
+                <div class="button_slide slide_down" onclick="borrarDatos()">Limpiar Datos</div>
+                <br /> <br /><br />      
+
+            
+            
+            <textarea id="resultado" readonly></textarea>
+          </div>
+        
+          <script>
+            function calcularBinomial() {
+              const p = parseFloat(document.getElementById("p").value);
+              const q = parseFloat(document.getElementById("q").value);
+              const n = parseInt(document.getElementById("n").value);
+              const x = parseInt(document.getElementById("x").value);
+        
+              if (isNaN(p) || isNaN(q) || isNaN(n) || isNaN(x) || p < 0 || p > 1 || q < 0 || q > 1 || n < 1 || x < 0 || x > n) {
+                alert("Por favor, ingrese valores válidos.");
+                return;
+              }
+        
+              const binomial = calcularDistribucionBinomial(p, n, x);
+              document.getElementById("resultado").value = `La probabilidad de obtener ${x} éxitos en ${n} ensayos es: ${binomial.toFixed(4)}`;
+            }
+        
+            function borrarDatos() {
+              document.getElementById("p").value = "";
+              document.getElementById("q").value = "";
+              document.getElementById("n").value = "";
+              document.getElementById("x").value = "";
+              document.getElementById("resultado").value = "";
+            }
+        
+            function calcularDistribucionBinomial(p, n, x) {
+              const q = 1 - p;
+              const coeficienteBinomial = calcularCoeficienteBinomial(n, x);
+              const probabilidad = coeficienteBinomial * Math.pow(p, x) * Math.pow(q, n - x);
+              return probabilidad;
+            }
+        
+            function calcularCoeficienteBinomial(n, x) {
+              return factorial(n) / (factorial(x) * factorial(n - x));
+            }
+        
+            function factorial(number) {
+              if (number === 0) return 1;
+              return number * factorial(number - 1);
+            }
+          </script>
+</body>
+
+</html>
